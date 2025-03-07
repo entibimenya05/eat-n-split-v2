@@ -29,6 +29,8 @@ function App() {
   const [friends, setFriends] = useState(initialFriends);
   //display the form AddFriend conditionally
   const [showAddFriend, setShowAddFriend] = useState(false);
+  //selecting a friend
+  const [selectedFriend, setSelectedFriend] = useState(null);
   function handleShowAddFriend() {
     setShowAddFriend((show) => !show);
   }
@@ -38,17 +40,31 @@ function App() {
     //to  hide the form after submitting
     setShowAddFriend(false);
   }
+  //set the selected friend to the friend object it will receive
+  function handleSelection(friend) {
+    // setSelectedFriend(friend);
+    //to make the Close button work
+    //currently selected friend does not allways exist hence use ? optional chaining
+    setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
+    //select friend firsh then hide AddFriendForm
+    setShowAddFriend(false);
+  }
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendsList friends={friends} />
+        <FriendsList
+          friends={friends}
+          onSelection={handleSelection}
+          selectedFriend={selectedFriend}
+        />
         {/*conditioanally showAddFrien*/}
         {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
         <Button onClick={handleShowAddFriend}>
           {showAddFriend ? "Close" : "Add Friend"}
         </Button>
       </div>
-      <FormSplitBill />
+      {/*conditionally display SplitBillForm*/}
+      {selectedFriend && <FormSplitBill selectedFriend={selectedFriend} />}
     </div>
   );
 }
