@@ -3,9 +3,9 @@
 //updating showAddFriend with onClick
 function Button({ children, onClick }) {
   return (
-    <butto className="button" onClick={onClick}>
+    <button className="button" onClick={onClick}>
       {children}
-    </butto>
+    </button>
   );
 }
 export default Button;
