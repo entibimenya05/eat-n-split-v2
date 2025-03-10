@@ -49,6 +49,18 @@ function App() {
     //select friend firsh then hide AddFriendForm
     setShowAddFriend(false);
   }
+  function handleSplitBill(value) {
+    // console.log(value);
+    setFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+    //after splitting the bill, clear or close the form
+    setSelectedFriend(null);
+  }
   return (
     <div className="app">
       <div className="sidebar">
@@ -64,7 +76,12 @@ function App() {
         </Button>
       </div>
       {/*conditionally display SplitBillForm*/}
-      {selectedFriend && <FormSplitBill selectedFriend={selectedFriend} />}
+      {selectedFriend && (
+        <FormSplitBill
+          selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
+        />
+      )}
     </div>
   );
 }
